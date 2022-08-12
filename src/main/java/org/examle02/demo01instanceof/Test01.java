@@ -1,9 +1,5 @@
 package org.examle02.demo01instanceof;
 
-import lombok.var;
-
-import java.sql.SQLOutput;
-import java.util.ArrayList;
 
 /**
  * @author zhangyifan
