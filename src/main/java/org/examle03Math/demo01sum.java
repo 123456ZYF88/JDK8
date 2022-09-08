@@ -10,8 +10,6 @@ public class demo01sum {
     public static void main(String[] args) {
 
         System.out.println(Math.max(10,18));
-
-
         System.out.println(Math.min(10, 18));
 
 
