@@ -62,6 +62,36 @@
             <artifactId>Memcached-Java-Client</artifactId>
             <version>3.0.2</version>
         </dependency>
+        <!--标准的 Java 库未能提供足够的方法来操作其核心类，Apache-commons-lang 提供了许多辅助工具，特别是字符串操作方法、基本数值方法、对象反射、并发、
+        对象创建和序列化以及系统属性。此外，它还包含了对 java.util 的基本增强功能，日期和一系列的实用工具。
+        commons-lang 有两个主要版本，lang 和 lang3。lang 是早前版本，于 2002 年发布，而 lang3 是第三个大版本，摒弃了一些弱和旧的特性，不再兼容 lang，
+        包名也更新为 lang3，现在使用主要以 lang3 为主 。
+         -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.3.2</version>
+            <optional>true</optional>
+        </dependency>
+        <!-- Guava工程包含了若干被Google的 Java项目广泛依赖 的核心库  -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>30.0-android</version>
+            <optional>true</optional>
+        </dependency>
+<!--Apache POI 是一种流行的API,可以使用Java读写MS Excel文件，可以使用Java读写MS Word和MS PowerPoint文件。-->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>5.1.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.logging.log4j</groupId>
+                    <artifactId>log4j-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
     </dependencies>
 
