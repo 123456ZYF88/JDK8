@@ -572,8 +572,6 @@ public class DateUtil {
         return dateString;
     }
 
-    //TODO
-
     /**
      * 日期时间格式化成字符串
      *

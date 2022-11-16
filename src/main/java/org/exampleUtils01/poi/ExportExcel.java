@@ -386,7 +386,7 @@ public class ExportExcel<T>
 
 	/**
 	 * @ClassName: StoreReportBean
-	 * @Description: TODO
+	 * @Description: 按字段导出Excel
 	 * @author zhangting
 	 * @date 2014年6月9日
 	 *
