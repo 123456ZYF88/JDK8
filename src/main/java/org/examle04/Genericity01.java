@@ -12,6 +12,7 @@ import java.util.List;
  * @date 2022/8/6 22:28
  */
 public class Genericity01 {
+    //村上春树
     public static void main(String[] args) {
     OrderDO orderDO= new OrderDO();
     orderDO.setTags(Arrays.asList("tag1","tag2"));
