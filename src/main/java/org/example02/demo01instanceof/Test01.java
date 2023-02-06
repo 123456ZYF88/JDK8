@@ -1,4 +1,4 @@
-package org.examle02.demo01instanceof;
+package org.example02.demo01instanceof;
 
 
 /**

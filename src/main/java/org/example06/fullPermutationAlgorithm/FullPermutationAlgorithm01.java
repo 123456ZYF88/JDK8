@@ -1,4 +1,4 @@
-package org.examle06.fullPermutationAlgorithm;
+package org.example06.fullPermutationAlgorithm;
 
 
 import org.junit.jupiter.api.Test;

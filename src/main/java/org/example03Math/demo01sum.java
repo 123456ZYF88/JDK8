@@ -1,4 +1,4 @@
-package org.examle03Math;
+package org.example03Math;
 
 /**
  * @author zhangyifan

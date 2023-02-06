@@ -1,4 +1,4 @@
-package org.examle02.demo02final;
+package org.example02.demo02final;
 
 /**
  * @author zhangyifan

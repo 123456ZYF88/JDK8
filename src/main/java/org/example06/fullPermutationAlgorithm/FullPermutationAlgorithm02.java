@@ -1,7 +1,4 @@
-package org.examle06.fullPermutationAlgorithm;
-
-import java.util.ArrayList;
-import java.util.List;
+package org.example06.fullPermutationAlgorithm;
 
 /**
  * @Author ZhangYiFan

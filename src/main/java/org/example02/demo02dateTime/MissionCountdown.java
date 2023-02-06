@@ -1,4 +1,4 @@
-package org.examle02.demo02dateTime;
+package org.example02.demo02dateTime;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

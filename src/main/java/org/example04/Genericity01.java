@@ -1,4 +1,4 @@
-package org.examle04;
+package org.example04;
 
 import org.springframework.beans.BeanUtils;
 
