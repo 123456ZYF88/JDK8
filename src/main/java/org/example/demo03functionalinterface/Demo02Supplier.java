@@ -8,6 +8,9 @@ import java.util.function.Supplier;
  * @author zhangyifan
  * @version 8.0
  * @description: Supplier函数式接口 供应商
+ * java.util.function.Supplier<T> 接口，它意味着"供给" , 对应的Lambda表达式需要“对外提供”一个符合泛型类
+ * 型的对象数据。
+ * 供给型接口，通过Supplier接口中的get方法可以得到一个值，无参有返回的接口。
  * @date 2022/4/1 12:32
  */
 public class Demo02Supplier {
