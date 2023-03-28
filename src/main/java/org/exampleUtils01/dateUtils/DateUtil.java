@@ -3,17 +3,16 @@ package org.exampleUtils01.dateUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.exampleUtils01.exception.XiaoNiuException;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Random;
+import java.util.*;
 
 /**
  * 工具类 - 日期工具类
@@ -22,6 +21,7 @@ import java.util.Random;
  * @version V1.0
  */
 public class DateUtil {
+    private static SimpleDateFormat monthDateFormat = new SimpleDateFormat("MM");
     public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
     public static final String DATE_SIGN = "yyyyMMddHHmmssSSS";
     public static final DateTimeFormatter yyyyMMddHHmmss = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -252,6 +252,59 @@ public class DateUtil {
     public static Date afterHour(Date date, int minute) {
         return handleHour(date, Math.abs(minute));
     }
+
+    /**
+     * dd 该月有多少天
+     * @param date
+     * @return
+     */
+    public static int getDaysOfMonth(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+    }
+    /**
+     * dd 该月有多少天
+     * @param date
+     * @return
+     */
+    public static int getDaysOfMonth(String date) {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat simpleDate = new SimpleDateFormat("yyyyMM");
+        try {
+            calendar.setTime(simpleDate.parse(date)); //要计算你想要的月份，改变这里即可
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+    }
+
+
+    /**
+     * dd 该月有多少天
+     * @param date
+     * @return
+     */
+    public static int getDaysOfMonth2(String date) {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat simpleDate = new SimpleDateFormat("yyyyMM");
+        try {
+            calendar.setTime(simpleDate.parse(date)); //要计算你想要的月份，改变这里即可
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return calendar.getActualMaximum(Calendar.MONTH);
+    }
+
+    @Test
+    public void test11(){
+        int daysOfMonth2 = getDaysOfMonth2("202301");
+        System.out.println(daysOfMonth2);
+    }
+
+
+
+
 
     /**
      * 处理日期
@@ -508,6 +561,11 @@ public class DateUtil {
         return nowStr.substring(0, 7).replaceAll("-", "");
     }
 
+    /**
+     * 获取月第一天
+     * @param date
+     * @return
+     */
     public static String getMonthFirstDay(Date date) {
         Calendar c = Calendar.getInstance();
         c.setTime(date);
@@ -516,6 +574,7 @@ public class DateUtil {
         return formatter.format(c.getTime());
     }
 
+    //获取上个月的第一天
     public static String getLastMonthFirstDay(Date date) {
         Calendar c = Calendar.getInstance();
         c.setTime(date);
@@ -526,6 +585,7 @@ public class DateUtil {
         return dateString;
     }
 
+    //MM 获取月份最后一天
     public static String getMonthLastDay(Date date) {
         if (date == null) {
             date = new Date();
@@ -536,7 +596,7 @@ public class DateUtil {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         return format.format(c.getTime());
     }
-
+    //MM 获取上个月最后一天
     public static String getLastMonthLastDay(Date date) {
         Calendar c = Calendar.getInstance();
         c.setTime(new Date());
@@ -729,18 +789,157 @@ public class DateUtil {
         return maxDate;
 
     }
+    /**
+     * 获得开始时间和结束时间
+     * @param dateTime
+     * @return
+     * @throws ParseException
+     */
+    public static Map getMonthStartTimeByDate(String dateTime) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+        Date date = simpleDateFormat.parse(dateTime);
+        long currentTime = date.getTime();
+        String timeZone = "GMT+8:00";
+        Calendar calendar = Calendar.getInstance();// 获取当前日期
+        calendar.setTimeZone(TimeZone.getTimeZone(timeZone));
+        calendar.setTimeInMillis(currentTime);
+        calendar.add(Calendar.YEAR, 0);
+        calendar.add(Calendar.MONTH, 0);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);// 设置为1号,当前日期既为本月第一天
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        long timeInMillis = calendar.getTimeInMillis();
+        Date resultStartDate = new Date(timeInMillis);
+        String resultStartTime = simpleDateFormat.format(resultStartDate);
+        Calendar calendar2 = Calendar.getInstance();// 获取当前日期
+        calendar2.setTimeZone(TimeZone.getTimeZone(timeZone));
+        calendar2.setTimeInMillis(currentTime);
+        calendar2.add(Calendar.YEAR, 0);
+        calendar2.add(Calendar.MONTH, 0);
+        calendar2.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));// 获取当前月最后一天
+        calendar2.set(Calendar.HOUR_OF_DAY, 23);
+        calendar2.set(Calendar.MINUTE, 59);
+        calendar2.set(Calendar.SECOND, 59);
+        calendar2.set(Calendar.MILLISECOND, 999);
+        long timeInMillis2 = calendar2.getTimeInMillis();
+        Date resultEndDate = new Date(timeInMillis2);
+        String resultEndTime = simpleDateFormat.format(resultEndDate);
+        Map map = new HashMap();
+        map.put("startDate", resultStartTime);
+        map.put("endDate", resultEndTime);
+        return map;
+
+    }
+    /**
+     * 根据传入的参数，来对日期区间进行拆分，返回拆分后的日期List
+     * @param statisticsType
+     * @param
+     * @return
+     * @throws ParseException
+     * @author lihq 2019-6-24
+     * @editor
+     * @editcont
+     */
+    public static List<String> doDateByStatisticsType(String statisticsType, String startDate, String endDate) throws ParseException{
+        List<String> listWeekOrMonth = new ArrayList<String>();
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        Date sDate = dateFormat.parse(startDate);
+        Calendar sCalendar = Calendar.getInstance();
+        sCalendar.setFirstDayOfWeek(Calendar.MONDAY);
+        sCalendar.setTime(sDate);
+        Date eDate = dateFormat.parse(endDate);
+        Calendar eCalendar = Calendar.getInstance();
+        eCalendar.setFirstDayOfWeek(Calendar.MONDAY);
+        eCalendar.setTime(eDate);
+        boolean bool =true;
+        if(statisticsType.equals("week")){
+            while(sCalendar.getTime().getTime()<eCalendar.getTime().getTime()){
+                if(bool||sCalendar.get(Calendar.DAY_OF_WEEK)==2||sCalendar.get(Calendar.DAY_OF_WEEK)==1){
+                    listWeekOrMonth.add(dateFormat.format(sCalendar.getTime()));
+                    bool = false;
+                }
+                sCalendar.add(Calendar.DAY_OF_MONTH, 1);
+            }
+            listWeekOrMonth.add(dateFormat.format(eCalendar.getTime()));
+            if(listWeekOrMonth.size()%2!=0){
+                listWeekOrMonth.add(dateFormat.format(eCalendar.getTime()));
+            }
+        }else{
+            while(sCalendar.getTime().getTime()<eCalendar.getTime().getTime()){
+                if(bool||sCalendar.get(Calendar.DAY_OF_MONTH)==1||sCalendar.get(Calendar.DAY_OF_MONTH)==sCalendar.getActualMaximum(Calendar.DAY_OF_MONTH)){
+                    listWeekOrMonth.add(dateFormat.format(sCalendar.getTime()));
+                    bool = false;
+                }
+                sCalendar.add(Calendar.DAY_OF_MONTH, 1);
+            }
+            listWeekOrMonth.add(dateFormat.format(eCalendar.getTime()));
+            if(listWeekOrMonth.size()%2!=0){
+                listWeekOrMonth.add(dateFormat.format(eCalendar.getTime()));
+            }
+        }
+        return listWeekOrMonth;
+    }
 
     public static void main(String[] args) throws ParseException, XiaoNiuException {
-        getDateRandomBetween(LocalDateTime.now().minusMinutes(60), LocalDateTime.now().minusMinutes(20));
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        String begin = "2020-04-27 01:40:02";
-//        String end = "2020-04-27 01:40:04";
-//        Date beginDate = sdf.parse(begin);
-//        Date endDate = sdf.parse(end);
 
-//        Date datesBetween = getDateRandomBetween(endDate, beginDate);
-//        String dateString = sdf.format(datesBetween);
-//        System.out.println(dateString);
     }
+
+
+
+    /**
+     * 根据传入的参数，来对日期区间进行拆分，返回拆分后的日期List
+     * @param statisticsType
+     * @param map
+     * @return
+     * @throws ParseException
+     * @author lihq 2019-6-24
+     * @editor
+     * @editcont
+     */
+    public List<String> doDateByStatisticsType(String statisticsType,Map<String, Object> map) throws ParseException{
+        List<String> listWeekOrMonth = new ArrayList<String>();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String startDate = (String)map.get("startDate");
+        String endDate = (String)map.get("endDate");
+        Date sDate = dateFormat.parse(startDate);
+        Calendar sCalendar = Calendar.getInstance();
+        sCalendar.setFirstDayOfWeek(Calendar.MONDAY);
+        sCalendar.setTime(sDate);
+        Date eDate = dateFormat.parse(endDate);
+        Calendar eCalendar = Calendar.getInstance();
+        eCalendar.setFirstDayOfWeek(Calendar.MONDAY);
+        eCalendar.setTime(eDate);
+        boolean bool =true;
+        if(statisticsType.equals("week")){
+            while(sCalendar.getTime().getTime()<eCalendar.getTime().getTime()){
+                if(bool||sCalendar.get(Calendar.DAY_OF_WEEK)==2||sCalendar.get(Calendar.DAY_OF_WEEK)==1){
+                    listWeekOrMonth.add(dateFormat.format(sCalendar.getTime()));
+                    bool = false;
+                }
+                sCalendar.add(Calendar.DAY_OF_MONTH, 1);
+            }
+            listWeekOrMonth.add(dateFormat.format(eCalendar.getTime()));
+            if(listWeekOrMonth.size()%2!=0){
+                listWeekOrMonth.add(dateFormat.format(eCalendar.getTime()));
+            }
+        }else{
+            while(sCalendar.getTime().getTime()<eCalendar.getTime().getTime()){
+                if(bool||sCalendar.get(Calendar.DAY_OF_MONTH)==1||sCalendar.get(Calendar.DAY_OF_MONTH)==sCalendar.getActualMaximum(Calendar.DAY_OF_MONTH)){
+                    listWeekOrMonth.add(dateFormat.format(sCalendar.getTime()));
+                    bool = false;
+                }
+                sCalendar.add(Calendar.DAY_OF_MONTH, 1);
+            }
+            listWeekOrMonth.add(dateFormat.format(eCalendar.getTime()));
+            if(listWeekOrMonth.size()%2!=0){
+                listWeekOrMonth.add(dateFormat.format(eCalendar.getTime()));
+            }
+        }
+
+        return listWeekOrMonth;
+    }
+
 
 }

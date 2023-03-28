@@ -1,5 +1,9 @@
 package org.example03Math;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
+
 /**
  * @author zhangyifan
  * @version 8.0
@@ -8,11 +12,6 @@ package org.example03Math;
  */
 public class demo01sum {
     public static void main(String[] args) {
-
-        System.out.println(Math.max(10,18));
-        System.out.println(Math.min(10, 18));
-
-
     }
 
 }
