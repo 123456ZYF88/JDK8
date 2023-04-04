@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * @Author ZhangYiFan
@@ -13,6 +14,7 @@ import java.util.List;
  * @Version 1.0
  */
 public class Test2 {
+
 
     @Test
     /**
@@ -55,18 +57,34 @@ public class Test2 {
         one.stream().filter(s -> s.length() == 2).forEach(System.out::println);
     }
 
+    /**
+     * 取前几个值
+     * 参数是一个long型，如果集合当前长度大于参数则进行截取。否则不进行操作。基本使用：
+     */
     @Test
     public void testLimit() {
-
+        List<String> one = new ArrayList<>();
+        Collections.addAll(one, "迪丽热巴", "宋远桥", "苏星河", "老子", "庄子", "孙子");
+        one.stream().limit(2).forEach(System.out::println);
     }
-
+    /**
+     * 如果希望跳过前几个元素，可以使用 skip 方法获取一个截取之后的新流：
+     * 如果流的当前长度大于n，则跳过前n个；否则将会得到一个长度为0的空流。基本使用：
+     */
     @Test
     public void testSkip() {
-
+        List<String> one = new ArrayList<>();
+        Collections.addAll(one, "迪丽热巴", "宋远桥", "苏星河", "老子", "庄子", "孙子");
+        one.stream().skip(2).forEach(System.out::println);
     }
 
+    /**
+     * 将一个流映射到另一个流中
+     * 该接口需要一个 Function 函数式接口参数，可以将当前流中的T类型数据转换为另一种R类型的流。
+     */
     @Test
     public void testMap() {
+        Stream<String> original = Stream.of("11", "22", "33");
 
     }
 
