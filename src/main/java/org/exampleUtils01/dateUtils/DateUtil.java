@@ -942,4 +942,14 @@ public class DateUtil {
     }
 
 
+    /**
+     * 日期去 -
+     */
+    @Test
+    public void testt(){
+        String date = "2017-09";
+        String response = date.replaceAll("[[\\s-:punct:]]","");
+        System.out.println(response);
+    }
+
 }
