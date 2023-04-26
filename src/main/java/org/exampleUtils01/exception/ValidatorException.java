@@ -9,7 +9,7 @@ import org.exampleUtils01.type.RESULT_CODE;
  * @author wumenghua
  * @version 1.0
  */
-public class ValidatorException extends XiaoNiuException
+public class ValidatorException extends CustomException
 {
 	private static final long serialVersionUID = 3315764959657040681L;
 

@@ -2,16 +2,16 @@ package org.exampleUtils01.exception;
 
 
 /**
- * 小牛异常
+ * 自定义异常
  * 
- * @author wumenghua
+ * @author
  * @version 1.0
  */
-public class XiaoNiuException extends Exception
+public class CustomException extends Exception
 {
 	private static final long serialVersionUID = 3642149887998012492L;
 
-	public XiaoNiuException(String code, String message)
+	public CustomException(String code, String message)
 	{
 		super(message);
 		this.setCode(code);

@@ -2,7 +2,7 @@ package org.exampleUtils01.dateUtils;
 
 import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.exampleUtils01.exception.XiaoNiuException;
+import org.exampleUtils01.exception.CustomException;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -139,6 +139,7 @@ public final class DateUtil {
         try {
             nowDate = formatter.parse(dateString);
         } catch (ParseException e) {
+            return new Date();
         }
         return nowDate;
     }
@@ -158,6 +159,7 @@ public final class DateUtil {
         try {
             nowDate = formatter.parse(dateString);
         } catch (ParseException e) {
+            return new Date();
         }
         return nowDate;
     }
@@ -177,6 +179,7 @@ public final class DateUtil {
         try {
             nowDate = formatter.parse(dateString);
         } catch (ParseException e) {
+            return new Date();
         }
         return nowDate;
     }
@@ -197,6 +200,7 @@ public final class DateUtil {
         try {
             nowDate = formatter.parse(dateString);
         } catch (ParseException e) {
+            return new Date();
         }
         return nowDate;
     }
@@ -459,10 +463,10 @@ public final class DateUtil {
 
 
 
-    /**比较
+    /**比较当前时间
      *
      * @param date
-     * @return date比当前日期大为true
+     * @return   比当前日期大为true
      */
     public static boolean compareDate(Date date) {
         if (date == null) {
@@ -471,6 +475,16 @@ public final class DateUtil {
         return date.compareTo(new Date()) > 0;
     }
 
+
+
+
+    /** 比较时间大小
+     * 第一个时间参数和第二个参数比较，第一个大于第二个返回true小于返回false
+     *
+     * @param beginDate
+     * @param endDate
+     * @return
+     */
     public static Boolean compareDate(Date beginDate, Date endDate) {
         if (beginDate == null) {
             return null;
@@ -481,44 +495,43 @@ public final class DateUtil {
         return endDate.compareTo(beginDate) > 0;
     }
 
+
     /**
-     * 日期减法
-     *
-     * @param minuend 被减数
-     * @param meiosis 减数
-     * @return
+     * 日期减法 获得毫秒值日期 （ 注意 减数不能为空为空就报错）
+     * /1000/60/60/24之后为日
+     * @param minuend 被减数 20230428
+     * @param meiosis 减数 20230426
+     * @return 172800000
      */
     public static long dateSubtraction(Date minuend, Date meiosis) {
         if (DateUtil.compareDate(minuend)) {
-            long surplusTime = minuend.getTime() - meiosis.getTime();
-            return surplusTime;
+             return minuend.getTime() - meiosis.getTime();
         } else {
             return 0;
         }
     }
 
     /**
-     * 日期减法
-     *
-     * @param minuend 被减数
-     * @param meiosis 减数
-     * @return
+     * 日期减法 获得毫秒值日期
+     * /1000/60/60/24之后为日
+     * @param minuend 被减数 20230428
+     * @param meiosis 减数 20230426
+     * @return 172800000
      */
     public static long subtractDate(Date minuend, Date meiosis) {
         if (minuend == null || meiosis == null) {
             return 0;
         } else {
-            long surplusTime = minuend.getTime() - meiosis.getTime();
-            return surplusTime;
+            return minuend.getTime() - meiosis.getTime();
         }
     }
 
     /**
-     * 把毫秒转化成日期
+     * 把毫秒转化成自定义格式日期
      *
-     * @param dateFormat(日期格式，例如：MM/ dd/yyyy HH:mm:ss)
-     * @param millSec(毫秒数)
-     * @return
+     * @param dateFormat  yyyy/MM/dd HH:mm:ss
+     * @param millSec(毫秒数)  1682487107000
+     * @return  2023/04/26 13:31:47
      */
     public static String transferLongToDate(String dateFormat, Long millSec) {
         SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
@@ -528,8 +541,10 @@ public final class DateUtil {
 
     /**
      * 给定一个日期，返回加减n天后的日期
+     * @param basicDate 20230426
+     * @param n 2
+     * @return Fri Apr 28 00:00:00 CST 2023 = 20230428
      */
-
     public static Date nDaysAfterOneDate(Date basicDate, int n) {
         if (basicDate == null) return null;
         Calendar cal = Calendar.getInstance();
@@ -537,20 +552,35 @@ public final class DateUtil {
         cal.add(Calendar.DATE, n);
         return cal.getTime();
     }
+    // 返回字符串版本
+    public static String nDaysAfterOneDate(Date basicDate, int n,String StringDateFormat) {
+        if (basicDate == null) return null;
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(basicDate);
+        cal.add(Calendar.DATE, n);
+        SimpleDateFormat dateFormat = new SimpleDateFormat(StringDateFormat);
+        return  dateFormat.format(cal.getTime());
+    }
 
+    /**
+     * 给定一个日期，返回加减n分钟后的日期
+     * @param basicDate 202304261348
+     * @param n 2
+     * @return 转换后 202304260150 无法区分24小时公司
+     */
     public static Date nMinAfterOneDate(Date basicDate, int n) {
+        if (basicDate == null) return null;
         Calendar cal = Calendar.getInstance();
         cal.setTime(basicDate);
         cal.add(Calendar.MINUTE, n);
         return cal.getTime();
     }
 
-    /**转字符串
-     * @param date
-     * @return
-     * @description 通过指定日期得到年月字符串
-     * @author gc
-     * @date 2019/9/4
+
+    /**转换Date为年月字符串字符串
+     * @param date Wed Apr 26 13:50:00 CST 2023
+     * @return  202304
+     * @description    转换Date为年月字符串字符串 改变substring来获得更高精度日期字符串
      */
     public static String getYearAndMonthStr(Date date) {
         String nowStr = DateUtil.day2String(date);
@@ -560,7 +590,8 @@ public final class DateUtil {
         return nowStr.substring(0, 7).replaceAll("-", "");
     }
 
-    /**
+
+    /**月
      * 获取月第一天
      * @param date
      * @return
@@ -573,7 +604,11 @@ public final class DateUtil {
         return formatter.format(c.getTime());
     }
 
-    //获取上个月的第一天
+    /**
+     *  获取上个月的第一天
+     * @param date
+     * @return
+     */
     public static String getLastMonthFirstDay(Date date) {
         Calendar c = Calendar.getInstance();
         c.setTime(date);
@@ -584,7 +619,11 @@ public final class DateUtil {
         return dateString;
     }
 
-    //MM 获取月份最后一天
+    /**
+     * MM 获取月份最后一天
+     * @param date
+     * @return
+     */
     public static String getMonthLastDay(Date date) {
         if (date == null) {
             date = new Date();
@@ -595,7 +634,12 @@ public final class DateUtil {
         SimpleDateFormat format = new SimpleDateFormat(YYYY_MM_DD);
         return format.format(c.getTime());
     }
-    //MM 获取上个月最后一天
+
+    /**
+     * MM 获取上个月最后一天
+     * @param date
+     * @return
+     */
     public static String getLastMonthLastDay(Date date) {
         Calendar c = Calendar.getInstance();
         c.setTime(new Date());
@@ -606,35 +650,35 @@ public final class DateUtil {
         return dateString;
     }
 
+    /**日期时间差
+     * 可以区分24小时格式
+     * @param beginDate 202304260248， 20230426
+     * @param endDate 202304261348， 20230427
+     * @return 11小时 ，1天
+     */
     public static String DatesBetween(Date beginDate, Date endDate) {
         String dateString = "";
         if (beginDate == null || endDate == null) {
             return dateString;
         }
-
         long between = (endDate.getTime() - beginDate.getTime()) / 1000;//除以1000是为了转换成秒
-
         long day = between / (24 * 3600);
-
         long second = between % (24 * 3600);
-
         BigDecimal hour = BigDecimal.valueOf(second).divide(BigDecimal.valueOf(3600), 2, BigDecimal.ROUND_HALF_UP);
-
         if (day != 0) {
             dateString = day + "天";
         }
-
         if (BigDecimal.ZERO.compareTo(hour) != 0) {
             dateString += (hour + "小时");
         }
-
         return dateString;
     }
 
+
     /**转字符串
      * 日期时间格式化成字符串
-     *
-     * @return
+     * @param dateTime 1970-1-20 19:21:27
+     * @return 1970120192127
      */
     public static String formatStringToString(String dateTime) {
         if (StringUtils.isNotBlank(dateTime)) {
@@ -648,10 +692,10 @@ public final class DateUtil {
     /**转字符串 自定义
      * 日期字符串格式化
      *
-     * @param dateString     日期字符串
-     * @param originalFormat 日期字符串原来格式
-     * @param newFormat      日期字符串新的格式
-     * @return 格式化后的日期字符串
+     * @param dateString     日期字符串 1970-1-20 19:21:27
+     * @param originalFormat 日期字符串原来格式 yyyy-MM-dd HH:mm:ss
+     * @param newFormat      日期字符串新的格式 yyyyMMDD HHmmss
+     * @return 格式化后的日期字符串 19700120 192127
      * @throws ParseException
      */
     public static String formatDateString(String dateString, String originalFormat, String newFormat)
@@ -660,28 +704,31 @@ public final class DateUtil {
         return new SimpleDateFormat(newFormat).format(sourceDate);
     }
 
+    /**
+     * 随机数
+     */
     private static final Random random = new Random();
     public static Long randomLong(){
         return random.nextLong();
     }
+
+
     /**
      * 取两个日期之间的随机日期
-     *
+     * 为空返回最新时间
      * @param firstDate
      * @param secondDate
      * @return
      */
-    public static Date getDateRandomBetween(Date firstDate, Date secondDate) throws XiaoNiuException {
+    public static Date getDateRandomBetween(Date firstDate, Date secondDate)    {
         if (firstDate == null || secondDate == null) {
-            throw new XiaoNiuException("-1", "日期不能为空！");
+            return new Date();
         }
-
         if (firstDate.getTime() - secondDate.getTime() == 0) {
             return firstDate;
         }
-
         long randomDate = 0;
-        long randomLong = randomLong();//实际操作时应该把方法放到公共包里面 CommonUtil.randomLong();
+        long randomLong = randomLong();  //实际操作时注意随机数方法
         long rand = Math.abs(randomLong % (firstDate.getTime() - secondDate.getTime()));
         if (firstDate.getTime() - secondDate.getTime() <= 0) {
             randomDate = firstDate.getTime() + (rand < 1000 ? 1000 : rand);
@@ -697,8 +744,8 @@ public final class DateUtil {
     /**
      * 取某个日期的天数
      *
-     * @param date
-     * @return
+     * @param date 20230426
+     * @return 26
      */
     public static int getDay(Date date) {
         if (date == null) {
@@ -709,19 +756,20 @@ public final class DateUtil {
         return c.get(Calendar.DATE);
     }
 
+
     /**
-     * date 多少秒之前的日期
+     * 秒 多少秒之前的日期
      *
      * @param date   日期
      * @param second
      * @return
      */
-    public static Date beforSecond(Date date, int second) {
+    public static Date beforeSecond(Date date, int second) {
         return handleSecond(date, -second);
     }
 
     /**
-     * date 多少秒后的日期
+     * 秒 多少秒后的日期
      *
      * @param date
      * @param second
@@ -731,6 +779,12 @@ public final class DateUtil {
         return handleSecond(date, Math.abs(second));
     }
 
+    /**
+     *
+     * @param date
+     * @param second
+     * @return
+     */
     private static Date handleSecond(Date date, int second) {
         if (null == date) {
             date = new Date();
@@ -740,7 +794,21 @@ public final class DateUtil {
         cal.add(Calendar.SECOND, second);
         return cal.getTime();
     }
+    @Test
+    public void test1(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyyMMddHH");
+        try {
+            Date format = dateFormat2.parse("2023042314");
+            Date format2 = dateFormat.parse("20261026");
 
+            int date = getDay(format );
+            System.out.println(date);
+            //System.out.println( getYearAndMonthStr(date));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * 计算两个时间之间相差的天数
@@ -755,9 +823,10 @@ public final class DateUtil {
         return l;
     }
 
-    public static String getDateRandomBetween(LocalDateTime startTime, LocalDateTime endTime) throws XiaoNiuException {
+
+    public static String getDateRandomBetween(LocalDateTime startTime, LocalDateTime endTime) throws CustomException {
         if (startTime == null || endTime == null) {
-            throw new XiaoNiuException("-1", "日期不能为空！");
+            throw new CustomException("-1", "日期不能为空！");
         }
         long sTime = startTime.toEpochSecond(ZoneOffset.UTC);
         long eTime = endTime.toEpochSecond(ZoneOffset.UTC);

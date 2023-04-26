@@ -1,6 +1,6 @@
 package org.exampleUtils01.exception;
 
-public class PowerException extends XiaoNiuException
+public class PowerException extends CustomException
 {
 	PowerException(String code, String message)
 	{
