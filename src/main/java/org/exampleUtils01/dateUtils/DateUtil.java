@@ -22,13 +22,12 @@ import java.util.*;
  */
 public final class DateUtil {
 
-    private static SimpleDateFormat monthDateFormat = new SimpleDateFormat("MM");
     private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
     private static final String DATE_SIGN = "yyyyMMddHHmmssSSS";
     private static final String YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
     private static final String YYYY_MM_DD = "yyyy-MM-dd";
     private static final String YYYYMMDD = "yyyyMMdd";
-    private static final DateTimeFormatter yyyy_MM_ddHHmmss = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final DateTimeFormatter yyyy_MM_ddHHmmss = DateTimeFormatter.ofPattern(DATE_FORMAT);
     //静态块初始化方式：
     private static DateUtil gson = null;
     static {
@@ -271,15 +270,6 @@ public final class DateUtil {
         return calendar.getActualMaximum(Calendar.MONTH)+1;
     }
 
-    @Test
-    public void test11(){
-        int daysOfMonth2 = getDaysOfMonth2("2023");
-        System.out.println(daysOfMonth2);
-    }
-
-
-
-
 
     /**
      * 处理日期小时变化
@@ -362,8 +352,8 @@ public final class DateUtil {
             }
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             SimpleDateFormat newFormatter = new SimpleDateFormat(DATE_FORMAT);
-            Date date_date = formatter.parse(date);
-            date = newFormatter.format(date_date);
+            Date dateDate = formatter.parse(date);
+            date = newFormatter.format(dateDate);
         } catch (ParseException e) {
             e.printStackTrace();
             return null;
@@ -385,8 +375,8 @@ public final class DateUtil {
             }
             SimpleDateFormat formatter = new SimpleDateFormat(startFormat);
             SimpleDateFormat newFormatter = new SimpleDateFormat(endFormat);
-            Date date_date = formatter.parse(date);
-            date = newFormatter.format(date_date);
+            Date dateDate = formatter.parse(date);
+            date = newFormatter.format(dateDate);
         } catch (ParseException e) {
             e.printStackTrace();
             return null;
@@ -487,7 +477,7 @@ public final class DateUtil {
      */
     public static Boolean compareDate(Date beginDate, Date endDate) {
         if (beginDate == null) {
-            return null;
+            beginDate = new Date();
         }
         if (endDate == null) {
             endDate = new Date();
@@ -553,12 +543,12 @@ public final class DateUtil {
         return cal.getTime();
     }
     // 返回字符串版本
-    public static String nDaysAfterOneDate(Date basicDate, int n,String StringDateFormat) {
+    public static String nDaysAfterOneDate(Date basicDate, int n,String stringDateFormat) {
         if (basicDate == null) return null;
         Calendar cal = Calendar.getInstance();
         cal.setTime(basicDate);
         cal.add(Calendar.DATE, n);
-        SimpleDateFormat dateFormat = new SimpleDateFormat(StringDateFormat);
+        SimpleDateFormat dateFormat = new SimpleDateFormat(stringDateFormat);
         return  dateFormat.format(cal.getTime());
     }
 
@@ -587,7 +577,7 @@ public final class DateUtil {
         if (StringUtils.isEmpty(nowStr)) {
             return "";
         }
-        return nowStr.substring(0, 7).replaceAll("-", "");
+        return nowStr.substring(0, 7).replace("-", "");
     }
 
 
@@ -615,8 +605,7 @@ public final class DateUtil {
         c.set(Calendar.DAY_OF_MONTH, 1);
         c.add(Calendar.MONTH, -1);
         SimpleDateFormat formatter = new SimpleDateFormat(YYYY_MM_DD);
-        String dateString = formatter.format(c.getTime());
-        return dateString;
+        return   formatter.format(c.getTime());
     }
 
     /**
@@ -636,18 +625,17 @@ public final class DateUtil {
     }
 
     /**
-     * MM 获取上个月最后一天
+     * MM 获取某个月最后一天
      * @param date
      * @return
      */
     public static String getLastMonthLastDay(Date date) {
         Calendar c = Calendar.getInstance();
-        c.setTime(new Date());
+        c.setTime(date);
         c.add(Calendar.MONTH, -1);
         c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
         SimpleDateFormat format = new SimpleDateFormat(YYYY_MM_DD);
-        String dateString = format.format(c.getTime());
-        return dateString;
+         return  format.format(c.getTime());
     }
 
     /**日期时间差
@@ -794,21 +782,7 @@ public final class DateUtil {
         cal.add(Calendar.SECOND, second);
         return cal.getTime();
     }
-    @Test
-    public void test1(){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-        SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyyMMddHH");
-        try {
-            Date format = dateFormat2.parse("2023042314");
-            Date format2 = dateFormat.parse("20261026");
 
-            int date = getDay(format );
-            System.out.println(date);
-            //System.out.println( getYearAndMonthStr(date));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * 计算两个时间之间相差的天数
@@ -819,8 +793,7 @@ public final class DateUtil {
      */
     public static long getDateDifferenceDay(Date minuend, Date meiosis) {
         long difference = DateUtil.subtractDate(minuend, meiosis);
-        long l = difference / (1000 * 3600 * 24);
-        return l;
+        return difference / (1000 * 3600 * 24);
     }
 
 
@@ -852,9 +825,7 @@ public final class DateUtil {
 
         a.roll(Calendar.DATE, -1);
 
-        int maxDate = a.get(Calendar.DATE);
-
-        return maxDate;
+        return  a.get(Calendar.DATE);
 
     }
     /**
@@ -863,7 +834,7 @@ public final class DateUtil {
      * @return
      * @throws ParseException
      */
-    public static Map getMonthStartTimeByDate(String dateTime) throws ParseException {
+    public static Map<String,Object> getMonthStartTimeByDate(String dateTime) throws ParseException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(YYYYMMDD);
         Date date = simpleDateFormat.parse(dateTime);
         long currentTime = date.getTime();
@@ -894,7 +865,7 @@ public final class DateUtil {
         long timeInMillis2 = calendar2.getTimeInMillis();
         Date resultEndDate = new Date(timeInMillis2);
         String resultEndTime = simpleDateFormat.format(resultEndDate);
-        Map map = new HashMap();
+        Map<String,Object> map = new HashMap<>();
         map.put("startDate", resultStartTime);
         map.put("endDate", resultEndTime);
         return map;
@@ -908,7 +879,7 @@ public final class DateUtil {
      * @return
      * @throws ParseException
      */
-    public static List<String> doDateByStatisticsType(String statisticsType, String startDate, String endDate) {
+    public static List<String> dateSplitting(String statisticsType, String startDate, String endDate) {
         List<String> listWeekOrMonth = new ArrayList<>();
         DateFormat dateFormat = new SimpleDateFormat(YYYYMMDD);
          Calendar sCalendar = Calendar.getInstance();
@@ -953,12 +924,7 @@ public final class DateUtil {
         }
         return listWeekOrMonth;
     }
-    @Test
-    public void testt(){
-        List<String> list = doDateByStatisticsType("null", "20230105", "20230405");
-        list.stream().forEach(System.out::println);
 
-    }
 
 
     /**
@@ -1068,7 +1034,7 @@ public final class DateUtil {
      */
     public static String TimeStamp2Date(String timestampString, String formats) {
         if (formats.isEmpty()) {
-            formats = "yyyyMMddHHmmss";
+            formats = YYYYMMDDHHMMSS;
         }
         Long timestamp = Long.parseLong(timestampString) * 1;
         return   new SimpleDateFormat(formats, Locale.CHINA).format(new Date(timestamp));
