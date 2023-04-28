@@ -16,8 +16,6 @@ import java.util.*;
 
 /**
  * @description: 工具类 - 日期工具类
- *
- * @author wumenghua
  * @version V1.0
  */
 public final class DateUtil {
@@ -27,6 +25,10 @@ public final class DateUtil {
     private static final String YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
     private static final String YYYY_MM_DD = "yyyy-MM-dd";
     private static final String YYYYMMDD = "yyyyMMdd";
+    /**
+     * 日期格式 年月
+     */
+    public static final String FORMAT_DATE_YEAR_MONTH_TWO = "yyyyMM";
     private static final DateTimeFormatter yyyy_MM_ddHHmmss = DateTimeFormatter.ofPattern(DATE_FORMAT);
     //静态块初始化方式：
     private static DateUtil gson = null;
@@ -268,6 +270,24 @@ public final class DateUtil {
             e.printStackTrace();
         }
         return calendar.getActualMaximum(Calendar.MONTH)+1;
+    }
+
+    /**
+     * 获取当前年份的所有月份
+     * @return
+     */
+    public static List<String> getYearFullMonth() {
+        List<String> monthList = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_DATE_YEAR_MONTH_TWO);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        cal.set(Calendar.YEAR,cal.get(Calendar.YEAR));
+        cal.set(Calendar.MONTH, 0);
+        for(int i=0;i<12;i++){
+            monthList.add(sdf.format(cal.getTime()));
+            cal.add(Calendar.MONTH, 1);
+        }
+        return monthList;
     }
 
 
@@ -1076,5 +1096,43 @@ public final class DateUtil {
             return null;
         }
     }
+
+    /**获取一个月中每一天的时间 列表
+     *
+     * @param yyyyMM  "202304"
+     * @return [ 20230401, 20230402, 20230403,..... 20230430]
+     */
+    public static List<String> getDayListOfMonth(String yyyyMM) {
+        if (yyyyMM.length() != 6) {
+            return null;
+        }
+        List<String> list = new ArrayList<String>();
+        String ystr = yyyyMM.substring(0, 4);
+        String mstr = yyyyMM.substring(4,6);
+        Calendar a = Calendar.getInstance();
+        a.set(Calendar.YEAR, Integer.parseInt(ystr));//年份
+        a.set(Calendar.MONTH,Integer.parseInt(mstr) - 1);//月份
+        a.set(Calendar.DATE, 1);
+        a.roll(Calendar.DATE, -1);
+        int maxDate = a.get(Calendar.DATE);
+        for (int i = 0; i < maxDate; i++) {
+            int d = i+1;
+            String dstr = "";
+            if (d < 10) {
+                dstr = "0"+String.valueOf(d);
+            }else {
+                dstr = String.valueOf(d);
+            }
+            String day = ystr + mstr + dstr;
+            list.add(day);
+        }
+        return list;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(getDayListOfMonth("202304"));
+    }
+
+
 
 }
