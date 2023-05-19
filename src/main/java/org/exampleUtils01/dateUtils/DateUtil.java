@@ -20,16 +20,8 @@ import java.util.*;
  */
 public final class DateUtil {
 
-    private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
-    private static final String DATE_SIGN = "yyyyMMddHHmmssSSS";
-    private static final String YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
-    private static final String YYYY_MM_DD = "yyyy-MM-dd";
-    private static final String YYYYMMDD = "yyyyMMdd";
-    /**
-     * 日期格式 年月
-     */
-    public static final String FORMAT_DATE_YEAR_MONTH_TWO = "yyyyMM";
-    private static final DateTimeFormatter yyyy_MM_ddHHmmss = DateTimeFormatter.ofPattern(DATE_FORMAT);
+
+
     //静态块初始化方式：
     private static DateUtil gson = null;
     static {
@@ -39,16 +31,10 @@ public final class DateUtil {
     }
     private DateUtil() {
     }
-    //++++++++++++++++++先复制一下在去看测试一下在用+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    @Test
-    public void test(){
-        int daysOfMonth2 = getDaysOfMonth2("2023");
-        System.out.println(daysOfMonth2);
-    }
 
     /*获取时间yyyMMddHHmmssSSS*/
     public static String getIFormat() {
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_SIGN);
+        SimpleDateFormat sdf = new SimpleDateFormat(DTMode.DATE_SIGN);
         return sdf.format(new Date());
     }
 
@@ -278,7 +264,7 @@ public final class DateUtil {
      */
     public static List<String> getYearFullMonth() {
         List<String> monthList = new ArrayList<>();
-        SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_DATE_YEAR_MONTH_TWO);
+        SimpleDateFormat sdf = new SimpleDateFormat(DTMode.FORMAT_DATE_YEAR_MONTH_TWO);
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
         cal.set(Calendar.YEAR,cal.get(Calendar.YEAR));
@@ -371,7 +357,7 @@ public final class DateUtil {
                 return null;
             }
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            SimpleDateFormat newFormatter = new SimpleDateFormat(DATE_FORMAT);
+            SimpleDateFormat newFormatter = new SimpleDateFormat(DTMode.DATE_FORMAT);
             Date dateDate = formatter.parse(date);
             date = newFormatter.format(dateDate);
         } catch (ParseException e) {
@@ -414,12 +400,12 @@ public final class DateUtil {
         if (null == date) {
             return null;
         }
-        SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
+        SimpleDateFormat formatter = new SimpleDateFormat(DTMode.DATE_FORMAT);
         return formatter.format(date);
     }
 
-    /**转字符串yyyyMMddHHmmss
-     * 日期转化为固定格式的字符串 yyyyMMddHHmmss
+    /**转字符串DTMode.DTMode.YYYYMMDDHHMMSS
+     * 日期转化为固定格式的字符串 DTMode.DTMode.YYYYMMDDHHMMSS
      *
      * @param date
      * @return
@@ -467,7 +453,7 @@ public final class DateUtil {
         if (StringUtils.isBlank(date)) {
             return null;
         }
-        return stringToDate(date, DATE_FORMAT);
+        return stringToDate(date, DTMode.DATE_FORMAT);
     }
 
 
@@ -610,7 +596,7 @@ public final class DateUtil {
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         c.set(Calendar.DAY_OF_MONTH, 1);
-        SimpleDateFormat formatter = new SimpleDateFormat(YYYY_MM_DD);
+        SimpleDateFormat formatter = new SimpleDateFormat(DTMode.YYYY_MM_DD);
         return formatter.format(c.getTime());
     }
 
@@ -624,7 +610,7 @@ public final class DateUtil {
         c.setTime(date);
         c.set(Calendar.DAY_OF_MONTH, 1);
         c.add(Calendar.MONTH, -1);
-        SimpleDateFormat formatter = new SimpleDateFormat(YYYY_MM_DD);
+        SimpleDateFormat formatter = new SimpleDateFormat(DTMode.YYYY_MM_DD);
         return   formatter.format(c.getTime());
     }
 
@@ -640,7 +626,7 @@ public final class DateUtil {
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
-        SimpleDateFormat format = new SimpleDateFormat(YYYY_MM_DD);
+        SimpleDateFormat format = new SimpleDateFormat(DTMode.YYYY_MM_DD);
         return format.format(c.getTime());
     }
 
@@ -654,7 +640,7 @@ public final class DateUtil {
         c.setTime(date);
         c.add(Calendar.MONTH, -1);
         c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
-        SimpleDateFormat format = new SimpleDateFormat(YYYY_MM_DD);
+        SimpleDateFormat format = new SimpleDateFormat(DTMode.YYYY_MM_DD);
          return  format.format(c.getTime());
     }
 
@@ -702,7 +688,7 @@ public final class DateUtil {
      *
      * @param dateString     日期字符串 1970-1-20 19:21:27
      * @param originalFormat 日期字符串原来格式 yyyy-MM-dd HH:mm:ss
-     * @param newFormat      日期字符串新的格式 yyyyMMDD HHmmss
+     * @param newFormat      日期字符串新的格式 DTMode.YYYYMMDD HHmmss
      * @return 格式化后的日期字符串 19700120 192127
      * @throws ParseException
      */
@@ -824,10 +810,10 @@ public final class DateUtil {
         long sTime = startTime.toEpochSecond(ZoneOffset.UTC);
         long eTime = endTime.toEpochSecond(ZoneOffset.UTC);
         if (sTime == eTime) {
-            return startTime.format(yyyy_MM_ddHHmmss);
+            return startTime.format(DTMode.YYYY_MM_DDHHmmss);
         }
         long rand = RandomUtils.nextLong(sTime, eTime);
-        return LocalDateTime.ofEpochSecond(rand, 0, ZoneOffset.UTC).format(yyyy_MM_ddHHmmss);
+        return LocalDateTime.ofEpochSecond(rand, 0, ZoneOffset.UTC).format(DTMode.YYYY_MM_DDHHmmss);
     }
 
     /**
@@ -855,7 +841,7 @@ public final class DateUtil {
      * @throws ParseException
      */
     public static Map<String,Object> getMonthStartTimeByDate(String dateTime) throws ParseException {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(YYYYMMDD);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DTMode.YYYYMMDD);
         Date date = simpleDateFormat.parse(dateTime);
         long currentTime = date.getTime();
         String timeZone = "GMT+8:00";
@@ -901,7 +887,7 @@ public final class DateUtil {
      */
     public static List<String> dateSplitting(String statisticsType, String startDate, String endDate) {
         List<String> listWeekOrMonth = new ArrayList<>();
-        DateFormat dateFormat = new SimpleDateFormat(YYYYMMDD);
+        DateFormat dateFormat = new SimpleDateFormat(DTMode.YYYYMMDD);
          Calendar sCalendar = Calendar.getInstance();
         sCalendar.setFirstDayOfWeek(Calendar.MONDAY);
         Date eDate =null;
@@ -957,7 +943,7 @@ public final class DateUtil {
      */
     public List<String> doDateByStatisticsType(String statisticsType,Map<String, Object> map) throws ParseException{
         List<String> listWeekOrMonth = new ArrayList<>();
-        DateFormat dateFormat = new SimpleDateFormat(YYYY_MM_DD);
+        DateFormat dateFormat = new SimpleDateFormat(DTMode.YYYY_MM_DD);
         String startDate = (String)map.get("startDate");
         String endDate = (String)map.get("endDate");
         Date sDate = dateFormat.parse(startDate);
@@ -1015,8 +1001,8 @@ public final class DateUtil {
      */
     @Test
     public void circulateMillisecond(){
-        SimpleDateFormat sdf = new SimpleDateFormat(YYYYMMDDHHMMSS);
-        SimpleDateFormat df = new SimpleDateFormat(YYYYMMDD);
+        SimpleDateFormat sdf = new SimpleDateFormat(DTMode.YYYYMMDDHHMMSS);
+        SimpleDateFormat df = new SimpleDateFormat(DTMode.YYYYMMDD);
         Calendar calendar = Calendar.getInstance();
         String beginDate = "开始时间";
         String endDate = "结束时间";
@@ -1046,19 +1032,7 @@ public final class DateUtil {
             e.printStackTrace();
         }
     }
-    /**转换字符串 yyyyMMddHHmmss
-     * Java将Unix时间戳 转换 成指定格式日期字符串 现在是毫秒级时间戳，只需改变乘数为1000就可转换为秒级时间戳
-     * @param timestampString 时间戳 如：e"1678374000000";
-     * @param formats 要格式化的格式 默认："yyyyMMddHHmmss";
-     * @return 返回结果 如："2016-09-05 16:06:42";
-     */
-    public static String TimeStamp2Date(String timestampString, String formats) {
-        if (formats.isEmpty()) {
-            formats = YYYYMMDDHHMMSS;
-        }
-        Long timestamp = Long.parseLong(timestampString) * 1;
-        return   new SimpleDateFormat(formats, Locale.CHINA).format(new Date(timestamp));
-    }
+   
 
 
     /** 天
