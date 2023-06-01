@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 /**
  * @Author ZhangYiFan
  * @Date 2023/3/15 10:51
- * @description:
+ * @description: 基础方法练习题
  * @Version 1.0
  */
 public class Test1 {
