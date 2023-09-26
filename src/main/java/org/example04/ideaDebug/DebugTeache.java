@@ -15,7 +15,7 @@ public class DebugTeache {
 
 
     /**
-     * 待条件
+     * 断点条件
      */
     @Test
     public void TestDebugCondition(){
