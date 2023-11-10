@@ -6,13 +6,16 @@ import org.exampleUtils01.exception.CustomException;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
+
+import static org.exampleUtils01.dateUtils.DTMode.*;
 
 /**
  * @description: 工具类 - 日期工具类
@@ -596,7 +599,7 @@ public final class DateUtil {
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         c.set(Calendar.DAY_OF_MONTH, 1);
-        SimpleDateFormat formatter = new SimpleDateFormat(DTMode.YYYY_MM_DD);
+        SimpleDateFormat formatter = new SimpleDateFormat(YYYY_MM_DD);
         return formatter.format(c.getTime());
     }
 
@@ -610,7 +613,7 @@ public final class DateUtil {
         c.setTime(date);
         c.set(Calendar.DAY_OF_MONTH, 1);
         c.add(Calendar.MONTH, -1);
-        SimpleDateFormat formatter = new SimpleDateFormat(DTMode.YYYY_MM_DD);
+        SimpleDateFormat formatter = new SimpleDateFormat(YYYY_MM_DD);
         return   formatter.format(c.getTime());
     }
 
@@ -626,12 +629,12 @@ public final class DateUtil {
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
-        SimpleDateFormat format = new SimpleDateFormat(DTMode.YYYY_MM_DD);
+        SimpleDateFormat format = new SimpleDateFormat(YYYY_MM_DD);
         return format.format(c.getTime());
     }
 
     /**
-     * MM 获取某个月最后一天
+     * MM 获取上月最后一天
      * @param date
      * @return
      */
@@ -640,7 +643,7 @@ public final class DateUtil {
         c.setTime(date);
         c.add(Calendar.MONTH, -1);
         c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
-        SimpleDateFormat format = new SimpleDateFormat(DTMode.YYYY_MM_DD);
+        SimpleDateFormat format = new SimpleDateFormat(YYYY_MM_DD);
          return  format.format(c.getTime());
     }
 
@@ -943,7 +946,7 @@ public final class DateUtil {
      */
     public List<String> doDateByStatisticsType(String statisticsType,Map<String, Object> map) throws ParseException{
         List<String> listWeekOrMonth = new ArrayList<>();
-        DateFormat dateFormat = new SimpleDateFormat(DTMode.YYYY_MM_DD);
+        DateFormat dateFormat = new SimpleDateFormat(YYYY_MM_DD);
         String startDate = (String)map.get("startDate");
         String endDate = (String)map.get("endDate");
         Date sDate = dateFormat.parse(startDate);
@@ -1104,7 +1107,126 @@ public final class DateUtil {
     }
 
     public static void main(String[] args) {
-        System.out.println(getDayListOfMonth("202304"));
+        //getLastMonthLastDay
+        String lastMonthLastDay = getLastMonthLastDay(dateString2Date("202310",YYYYMMDD));
+        System.out.println("lastMonthLastDay = " + lastMonthLastDay);
+    }
+
+
+    /**
+     * 字符串转换为日期
+     *
+     * @param dateStr
+     * @return
+     */
+    public static Date dateString2Date(String dateStr,String format) {
+        SimpleDateFormat dateformat = new SimpleDateFormat(format);
+        Date date = null;
+        try {
+            if (dateStr == null || "".equals(dateStr)) {
+                return null;
+            }
+            date = dateformat.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return date;
+    }
+    /**
+     * 时间相加多少小时。
+     *
+     * @param day
+     * @param x
+     * @return
+     */
+    public static String addDateHour(String day, int x) {
+        SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT_Hour);// 24小时制
+        Date date = null;
+        try {
+            date = format.parse(day);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        if (date == null) {
+            return "";
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DECEMBER, x);// 24小时制
+        date = cal.getTime();
+        cal = null;
+        return format.format(date);
+    }
+    /**
+     * 字符串转换为日期
+     *
+     * @param dateStr
+     * @return
+     */
+    public static Date dateString2Date2(String dateStr,String format) {
+        SimpleDateFormat dateformat = new SimpleDateFormat(format);
+        Date date = null;
+        try {
+            if (dateStr == null || "".equals(dateStr)) {
+                return null;
+            }
+            date = dateformat.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return date;
+    }
+
+    //获取间隔天数
+    public static int getDaysBetween(Date date1, Date date2) {
+        if (date1 == null || date2 == null) {
+            throw new RuntimeException("日期不能为空");
+        }
+        LocalDate localDate1 = date2LocalDate(date1);
+        LocalDate localDate2 = date2LocalDate(date2);
+        return (int) ChronoUnit.DAYS.between(localDate1, localDate2);
+    }
+    public static LocalDate date2LocalDate(Date date) {
+        Instant instant = date.toInstant();
+        ZoneId zoneId = ZoneId.systemDefault();
+        LocalDate localDate = instant.atZone(zoneId).toLocalDate();
+        return localDate;
+    }
+    //获取间隔天数保留到小时
+    public static  long  getDaysBetween2(Date date1, Date date2) {
+        if (date1 == null || date2 == null) {
+            throw new RuntimeException("日期不能为空");
+        }
+        LocalDateTime localDate1 = date2LocalDateTime(date1);
+        LocalDateTime localDate2 = date2LocalDateTime(date2);
+        return    ChronoUnit.HOURS.between(localDate1, localDate2);
+    }
+    //date2LocalDateTime
+    public static LocalDateTime date2LocalDateTime(Date date) {
+        Instant instant = date.toInstant();
+        ZoneId zoneId = ZoneId.systemDefault();
+        return instant.atZone(zoneId).toLocalDateTime();
+    }
+    public static Date addDay(int day) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, day);
+        return calendar.getTime();
+    }
+
+    //测试类
+    @Test
+    public  void test( ) {
+        double daysBetween2 = getDaysBetween2(
+                dateString2Date2("2023110100", YYYY_MM_DD_HH),
+                dateString2Date2("2023110900", YYYY_MM_DD_HH));
+        BigDecimal v = hourToDay(daysBetween2);
+        System.out.println(v);
+    }
+    //小时转天
+    public static BigDecimal hourToDay(double hour) {
+        return  new BigDecimal( hour / 24).setScale(4, RoundingMode.UP);
     }
 
 

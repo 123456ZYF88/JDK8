@@ -1,11 +1,18 @@
 package org.example02.dem04Stream;
 
+import lombok.Data;
+import org.apache.poi.ss.formula.functions.Function;
 import org.apache.poi.ss.formula.functions.T;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.summingInt;
 
 /**
  * @Author ZhangYiFan
@@ -123,17 +130,152 @@ public class Test3 {
 //        Map<Integer, List<Student>> collect = studentStream.collect(Collectors.groupingBy(Student::getAge));
 //        System.out.println(collect);
         //将分数大于60和小于60分两个组
-        Map<String, List<Student>> collect1 = studentStream.collect(Collectors.groupingBy((s) -> {
+        Map<String, List<Student>> collect1 = studentStream.collect(groupingBy((s) -> {
             if (s.getScore() > 60) {
                 return "及格";
             } else {
                 return "不及格";
             }
         }));
-        System.out.println(collect1);
+        // System.out.println(collect1);
 
         collect1.forEach((k, v) -> System.out.println(k + "::" + v));
     }
+
+    @Data
+    class SalesPlan {
+        private String id;
+        private String type;
+        private String Name;
+        private String Data;
+        private int Num;
+
+        public SalesPlan(String id, String type, String name, String data, int num) {
+            this.id = id;
+            this.type = type;
+            Name = name;
+            Data = data;
+            Num = num;
+        }
+    }
+
+    @Data
+    class SalesPlan2 {
+        private String type;
+        private String Name;
+        private String Data;
+        private int Num;
+
+        public SalesPlan2(String type, String name, String data, int num) {
+            this.type = type;
+            Name = name;
+            Data = data;
+            Num = num;
+        }
+
+        public SalesPlan2() {
+        }
+    }
+
+
+    @Test
+    public void testGroup2() {
+
+
+
+        Stream<SalesPlan> studentStream = Stream.of(
+                new SalesPlan("赵丽颖", "正常合同", "焦油", "20231025", 100),
+                new SalesPlan("杨颖", "正常合同", "焦油", "20231025", 100),
+                new SalesPlan("迪丽热巴", "预计划", "焦油", "20231025", 100),
+                new SalesPlan("柳岩", "预计划", "工业萘", "20231025", 100),
+                new SalesPlan("柳岩", "预计划", "工业萘", "20231026", 100),
+                new SalesPlan("柳岩", "预计划", "工业萘", "20231026", 100),
+                new SalesPlan("柳岩", "预计划", "工业萘", "20231026", 100));
+//        Map<String, Map<String, Map<String, Integer>>> collect = studentStream.collect(groupingBy(SalesPlan::getType, groupingBy(SalesPlan::getName, groupingBy(SalesPlan::getData, summingInt(SalesPlan::getNum)))));
+//        collect.forEach((k, v) -> System.out.println(k + "::" + v));
+        Map<String, List<SalesPlan>> collect = studentStream.collect(groupingBy(v ->
+                v.getId() + "_" + v.getName()));
+       // collect.forEach((k, v) -> System.out.println(k + "::" + v));
+        List<SalesPlan> b = new ArrayList<>();
+        collect.forEach((k, v) ->
+                b.add( v.get(0))
+                );
+        System.out.println(b);
+        Map<String, Map<String, List<SalesPlan>>> collect1 = b.stream().collect(groupingBy(SalesPlan::getType,groupingBy(SalesPlan::getName)));
+        collect1.forEach((k, v) -> System.out.println(k + "::" + v));
+    }
+
+    /**
+     * 合并分组
+     */
+    @Test
+    public void testGroup3() {
+
+        List<SalesPlan> salesPlans = new ArrayList<>();
+        salesPlans.add(    new SalesPlan("赵丽颖", "正常合同", "焦油", "20231025", 100) );
+        salesPlans.add(   new SalesPlan("赵丽颖", "正常合同", "焦油", "20231025", 100));
+                salesPlans.add(        new SalesPlan("杨颖", "正常合同", "焦油", "20231025", 100));
+                        salesPlans.add(      new SalesPlan("迪丽热巴", "预计划", "焦油", "20231025", 100));
+                                salesPlans.add(      new SalesPlan("柳岩", "预计划", "工业萘", "20231025", 100));
+                                        salesPlans.add(     new SalesPlan("柳岩", "预计划", "工业萘", "20231026", 100));
+                                                salesPlans.add(     new SalesPlan("柳岩", "预计划", "工业萘", "20231026", 100));
+                                                        salesPlans.add(     new SalesPlan("柳岩", "预计划", "工业萘", "20231026", 100));
+        System.out.println(salesPlans);
+        Stream<SalesPlan> studentStream = salesPlans.stream();
+
+
+        Map<String, List<SalesPlan>> collect1 = studentStream.collect(groupingBy(v -> v.getType() + "_" + v.getName() + "_" + v.getData()));
+        // collect1.forEach((k, v) -> System.out.println(k + "::" + v));
+        List<SalesPlan2> s = new ArrayList<>();
+
+        for (Map.Entry<String, List<SalesPlan>> entry : collect1.entrySet()) {
+            String k = entry.getKey();
+            List<SalesPlan> v = entry.getValue();
+            SalesPlan2 salesPlan2 = new SalesPlan2();
+            for (SalesPlan i : v) {
+                salesPlan2.setName(i.getName());
+                salesPlan2.setType(i.getType());
+                salesPlan2.setData(i.getData());
+                System.out.println(i.getNum());
+                salesPlan2.setNum(salesPlan2.getNum() + i.getNum());
+            }
+            s.add(salesPlan2);
+        }
+        Map<String, Map<String, List<SalesPlan2>>> b  = s.stream().collect(groupingBy(SalesPlan2::getType, groupingBy(SalesPlan2::getName)));
+
+        b.forEach((k, v) -> System.out.println(k + "::" + v));
+        System.out.println(salesPlans);
+
+    }
+    /**
+     * 合并分组
+     */
+    @Test
+    public void testGroup4() {
+
+        List<SalesPlan> salesPlans = new ArrayList<>();
+        salesPlans.add(    new SalesPlan("赵丽颖", "正常合同", "焦油", "20231025", 100) );
+        salesPlans.add(   new SalesPlan("赵丽颖", "正常合同", "焦油", "20231025", 100));
+        salesPlans.add(        new SalesPlan("杨颖", "正常合同", "焦油", "20231025", 100));
+        salesPlans.add(      new SalesPlan("迪丽热巴", "预计划", "焦油", "20231025", 100));
+        salesPlans.add(      new SalesPlan("柳岩", "预计划", "工业萘", "20231025", 100));
+        salesPlans.add(     new SalesPlan("柳岩", "预计划", "工业萘", "20231026", 100));
+        salesPlans.add(     new SalesPlan("柳岩", "预计划", "工业萘", "20231026", 100));
+        salesPlans.add(     new SalesPlan("柳岩", "预计划", "工业萘", "20231026", 100));
+        System.out.println(salesPlans);
+        Map<Object,Boolean> seen = new ConcurrentHashMap<>();
+        List<SalesPlan> salesPlans2 = new ArrayList<>();
+        salesPlans.forEach(v-> {
+                    if (seen.putIfAbsent(v.getId() + v.getName(), Boolean.TRUE) == null) {
+                        salesPlans2.add(v);
+                    }
+                }
+        );
+
+        salesPlans2.forEach(System.out::println);
+    }
+
+
 
     /*
      * 多级分组%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -146,7 +288,11 @@ public class Test3 {
                 new Student("迪丽热巴", 57, 99),
                 new Student("柳岩", 52, 77));
 
-
+        int i =1;
+        while (i <2){
+            System.out.println(i);
+            i++;
+        }
     }
     // 对流进行分区%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

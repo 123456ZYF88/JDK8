@@ -80,6 +80,22 @@ public class Test1 {
         person1Stream.forEach(System.out::println);
 */
 
+        String a = "1,2,3,0,4,0,6,7,8,9";
+        String[] split = a.split(",");
+        int b =1;
+
+        for (int i = 0; i < split.length; i++) {
+            if (b==1){
+                System.out.println(i);
+            }
+            b=2;
+            if (split[i].equals("0")){
+                System.out.println(i);
+                b=1;
+            }
+
+
+        }
     }
 
 }
