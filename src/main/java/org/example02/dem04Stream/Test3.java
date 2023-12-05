@@ -324,5 +324,11 @@ public class Test3 {
                 .collect(Collectors.joining("<>", "><", "<<"));
         System.out.println("collect = " + collect);
     }
+    @Test
+    public void test () {
+     String url = "jdbc:db2://10.70.72.13:50013/dbtest36:currentSchema=IPLAT4J;";
+
+    }
+
 
 }
