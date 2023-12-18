@@ -1229,6 +1229,26 @@ public final class DateUtil {
         return  new BigDecimal( hour / 24).setScale(4, RoundingMode.UP);
     }
 
+    //根据开始时间和结束时间获得周一到周末z每天的z日期
+    public static List<String> getWeekDays2(String startDate, String endDate) throws ParseException {
+        List<String> listWeekOrMonth = new ArrayList<>();
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        Date sDate = dateFormat.parse(startDate);
+        Calendar sCalendar = Calendar.getInstance();
+        sCalendar.setFirstDayOfWeek(Calendar.MONDAY);
+        sCalendar.setTime(sDate);
+        Date eDate = dateFormat.parse(endDate);
+        Calendar eCalendar = Calendar.getInstance();
+        eCalendar.setFirstDayOfWeek(Calendar.MONDAY);
+        eCalendar.setTime(eDate);
+        listWeekOrMonth.add(startDate);
+        while (eDate.after(sCalendar.getTime())) {
+            sCalendar.add(Calendar.DAY_OF_MONTH, 1);
+            listWeekOrMonth.add(dateFormat.format(sCalendar.getTime()));
+        }
+
+        return listWeekOrMonth;
+    }
 
 
 }

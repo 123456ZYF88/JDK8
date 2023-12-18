@@ -7,9 +7,6 @@ package org.exampleDataStructure.graphModel;
  * <a href="https://blog.csdn.net/Healist/article/details/54637961">...</a>
  *相邻表法
  */
-/*图形A有n个顶点，则用n个表（链表）来表示，
-每个顶点后面接着的表节点元素表示该顶点到该元素存在边，
-每个表的最后一个元素为null。*/
 public class GraphLink {
     public Node first;
     public Node last;
@@ -34,7 +31,9 @@ public class GraphLink {
             last = newNode;
         }
     }
-
+    /*图形A有n个顶点，则用n个表（链表）来表示，
+    每个顶点后面接着的表节点元素表示该顶点到该元素存在边，
+    每个表的最后一个元素为null。*/
     public static void main(String[] args) {
         int Data[][] = { {1,2}, {2,1}, {1,5}, {5,1}, {2,3}, {3,2}, {2,4},
                 {4,2}, {3,4}, {4,3}, {3,5}, {5,3}, {4,5}, {5,4} };
@@ -44,7 +43,7 @@ public class GraphLink {
         GraphLink[] graph = new GraphLink[6];
         for (int k = 0; k < 6; k++) {
             graph[k] = new GraphLink();
-            System.out.println("顶点"+k+"=>");
+            System.out.print("顶点"+k+"=>");
             for (int l = 0; l < 14; l++) {
                 if(Data[l][0] == k){
                     DataNum = Data[l][1];
