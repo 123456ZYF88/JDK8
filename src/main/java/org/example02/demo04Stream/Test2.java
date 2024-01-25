@@ -1,11 +1,9 @@
-package org.example02.dem04Stream;
+package org.example02.demo04Stream;
 
-import lombok.val;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
 import java.util.stream.IntStream;
-import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 /**

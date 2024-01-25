@@ -1,18 +1,14 @@
-package org.example02.dem04Stream;
+package org.example02.demo04Stream;
 
 import lombok.Data;
-import org.apache.poi.ss.formula.functions.Function;
-import org.apache.poi.ss.formula.functions.T;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.summingInt;
 
 /**
  * @Author ZhangYiFan

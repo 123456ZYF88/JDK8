@@ -1,4 +1,4 @@
-package org.example02.dem04Stream;
+package org.example02.demo04Stream;
 
 import java.util.*;
 import java.util.stream.Stream;

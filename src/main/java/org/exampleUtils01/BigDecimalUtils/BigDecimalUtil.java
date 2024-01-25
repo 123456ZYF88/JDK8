@@ -286,5 +286,56 @@ public class BigDecimalUtil {
         BigDecimal bigDecimalOne = new BigDecimal(10.0);
         BigDecimal bigDecimalTwo = new BigDecimal(5.0);
         System.out.println(bigDecimalOne.divide(bigDecimalTwo,4, RoundingMode.HALF_UP));
+
+        BigDecimal valueSec = new BigDecimal(96);
+        BigDecimal valueThi = new BigDecimal(-74);
+        BigDecimal subtract = valueSec.subtract(valueThi);
+        System.out.println("000dddddd000"+subtract);
+
+//尽量用字符串的形式初始化
+        BigDecimal stringFir = new BigDecimal("0.005");
+        BigDecimal stringSec = new BigDecimal("1000000");
+        BigDecimal stringThi = new BigDecimal("-1000000");
+
+//加法
+        BigDecimal addVal = stringFir.add(valueSec);
+        System.out.println("加法用value结果：" + addVal);
+        BigDecimal addStr = stringFir.add(stringSec);
+        System.out.println("加法用string结果：" + addStr);
+
+//减法
+        BigDecimal subtractVal = stringFir.subtract(valueSec);
+        System.out.println("减法value结果：" + subtractVal);
+        BigDecimal subtractStr = stringFir.subtract(stringSec);
+        System.out.println("减法用string结果：" + subtractStr);
+
+//乘法
+        BigDecimal multiplyVal = stringFir.multiply(valueSec);
+        System.out.println("乘法用value结果：" + multiplyVal);
+        BigDecimal multiplyStr = stringFir.multiply(stringSec);
+        System.out.println("乘法用string结果：" + multiplyStr);
+
+//绝对值
+        BigDecimal absVal = valueThi.abs();
+        System.out.println("绝对值用value结果：" + absVal);
+        BigDecimal absStr = stringThi.abs();
+        System.out.println("绝对值用string结果：" + absStr);
+
+//除法
+        BigDecimal divideVal = valueSec.divide(stringFir, 20, BigDecimal.ROUND_HALF_UP);
+        System.out.println("除法用value结果：" + divideVal);
+        BigDecimal divideStr = stringSec.divide(stringFir, 20, BigDecimal.ROUND_HALF_UP);
+        System.out.println("除法用string结果：" + divideStr);
+
     }
+    //将小数字符串转成bigDecimal
+    public static BigDecimal toBigDecimal(String value) {
+        if (value == null || "".equals(value)){
+            return null;
+        }
+        return new BigDecimal(value);
+    }
+
+
+
 }

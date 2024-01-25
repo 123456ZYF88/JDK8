@@ -7,7 +7,7 @@ import java.util.function.Function;
 /**
  * @author zhangyifan
  * @version 8.0
- * @description:运行结果将会首先打印完全大写的HELLO，然后打印完全小写的hello。
+ * @description: 运行结果将会首先打印完全大写的HELLO，然后打印完全小写的hello。
  * 当然，通过链式写法可以实现更多步骤的组合。
  * @date 2022/4/1 14:14
  */
