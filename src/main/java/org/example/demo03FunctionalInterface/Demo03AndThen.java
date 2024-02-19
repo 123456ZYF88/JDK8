@@ -1,8 +1,6 @@
-package org.example.demo03functionalinterface;
+package org.example.demo03FunctionalInterface;
 
-import java.util.Locale;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 /**
  * @author zhangyifan

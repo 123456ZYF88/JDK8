@@ -1,4 +1,4 @@
-package org.example.demo0lambda;
+package org.example.demo0Lambda;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -1,4 +1,4 @@
-package org.example.demo03functionalinterface;
+package org.example.demo03FunctionalInterface;
 
 import java.util.Locale;
 import java.util.function.Consumer;
@@ -20,6 +20,7 @@ public class Demo03Comsumer {
         });
     }
     public static void test (Consumer<String> consumer){
+        System.out.println("sssssssssss");
         consumer.accept("HelloWorld");
     }
 }

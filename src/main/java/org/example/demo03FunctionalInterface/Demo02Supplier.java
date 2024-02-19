@@ -1,7 +1,6 @@
-package org.example.demo03functionalinterface;
+package org.example.demo03FunctionalInterface;
 
 import java.util.Arrays;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**

@@ -1,4 +1,4 @@
-package org.example.demo03functionalinterface;
+package org.example.demo03FunctionalInterface;
 
 import java.util.function.Function;
 

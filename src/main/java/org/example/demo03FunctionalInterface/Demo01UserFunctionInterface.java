@@ -1,10 +1,7 @@
-package org.example.demo03functionalinterface;
+package org.example.demo03FunctionalInterface;
 
-import java.lang.reflect.Array;
-import java.security.Key;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author zhangyifan

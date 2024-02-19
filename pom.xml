@@ -101,6 +101,18 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- 测试动态刷新值时导入的包，src/main/java/org/example04/dynamicRefreshValue-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>5.3.18</version>
+        </dependency>
+        <!-- 测试动态刷新值时导入的包，src/main/java/org/example04/dynamicRefreshValue-->
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>1.5.13</version>
+        </dependency>
 
     </dependencies>
 

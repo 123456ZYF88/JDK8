@@ -1,9 +1,7 @@
-package org.example.demo0lambda;
+package org.example.demo0Lambda;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 
 /**
  * @author zhangyifan

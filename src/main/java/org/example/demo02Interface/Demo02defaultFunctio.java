@@ -1,6 +1,5 @@
-package org.example.demo02interface;
+package org.example.demo02Interface;
 
-import java.lang.management.MemoryManagerMXBean;
 import java.util.HashMap;
 import java.util.Map;
 

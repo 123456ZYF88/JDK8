@@ -1,4 +1,4 @@
-package org.example.demo02interface;
+package org.example.demo02Interface;
 
 /**
  * @author zhangyifan
