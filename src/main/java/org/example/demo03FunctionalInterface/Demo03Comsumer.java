@@ -1,5 +1,7 @@
 package org.example.demo03FunctionalInterface;
 
+import org.junit.jupiter.api.Test;
+
 import java.util.Locale;
 import java.util.function.Consumer;
 
@@ -14,13 +16,24 @@ import java.util.function.Consumer;
  */
 public class Demo03Comsumer {
     public static void main(String[] args) {
+        String a = "AAAA";
+        Consumer<String> consumer = v -> {
+            System.out.println(      v.toLowerCase(Locale.ROOT));
+        };
+        consumer.accept(a);
 
-        test(s -> {
-            System.out.println(s.toLowerCase(Locale.ROOT));
+        test(v -> {
+            System.out.println(v+1);
         });
     }
-    public static void test (Consumer<String> consumer){
+    public static void test (Consumer<Integer> consumer){
         System.out.println("sssssssssss");
-        consumer.accept("HelloWorld");
+        consumer.accept(1);
+    }
+
+
+    @Test
+    public void test2(){
+
     }
 }
