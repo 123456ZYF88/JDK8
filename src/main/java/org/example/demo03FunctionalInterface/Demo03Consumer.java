@@ -14,17 +14,13 @@ import java.util.function.Consumer;
  * Consumer消费型接口，可以拿到accept方法参数传递过来的数据进行处理, 有参无返回的接口。
  * @date 2022/4/1 13:33
  */
-public class Demo03Comsumer {
+public class Demo03Consumer {
     public static void main(String[] args) {
         String a = "AAAA";
-        Consumer<String> consumer = v -> {
-            System.out.println(      v.toLowerCase(Locale.ROOT));
-        };
+        Consumer<String> consumer = v -> System.out.println(   v.toLowerCase(Locale.ROOT));
         consumer.accept(a);
 
-        test(v -> {
-            System.out.println(v+1);
-        });
+        test(v -> System.out.println(v+1));
     }
     public static void test (Consumer<Integer> consumer){
         System.out.println("sssssssssss");

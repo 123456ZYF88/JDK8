@@ -10,9 +10,7 @@ import java.util.function.Function;
  */
 public class Demo04Function {
     public static void main(String[] args) {
-        test(s -> {
-            return Integer.parseInt(s);
-        });
+        test(Integer::parseInt);
     }
     public static void test(Function<String,Integer> function){
         Integer in = function.apply("10");

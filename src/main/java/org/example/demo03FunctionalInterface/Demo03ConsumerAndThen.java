@@ -9,7 +9,7 @@ import java.util.function.Consumer;
  * 当然，通过链式写法可以实现更多步骤的组合。
  * @date 2022/4/1 14:14
  */
-public class Demo03AndThen {
+public class Demo03ConsumerAndThen {
     public static void main(String[] args) {
         //Lambd表达式
         test((s) -> {
