@@ -16,6 +16,20 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <springcontext.version>5.3.20</springcontext.version>
+        <hutool.version>5.7.3</hutool.version>
+        <junit.version>4.13.1</junit.version>
+        <junit-jupiter.version>5.11.0-M2</junit-jupiter.version>
+        <lombok.vesion>1.18.34</lombok.vesion>
+        <json-lib.verions>2.4</json-lib.verions>
+        <fastjson.verion> 2.0.0</fastjson.verion>
+        <commons-lang3.version>3.3.2</commons-lang3.version>
+        <org.jsoup.version>1.14.3</org.jsoup.version>
+        <com.google.guava.version>32.0.0-android</com.google.guava.version>
+        <org.apache.poi.version>5.1.0</org.apache.poi.version>
+        <io.swagger.version>1.5.13</io.swagger.version>
+        <com.fasterxml.jackson.core.version>2.15.4</com.fasterxml.jackson.core.version>
+
     </properties>
 
     <dependencies>
@@ -23,47 +37,65 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>5.3.18</version>
+            <version>${springcontext.version}</version>
         </dependency>
-
-
         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${springcontext.version}</version>
+        </dependency>
+        <dependency>
+            <!-- junit 和 junit.jupiter 是 JUnit 框架的不同版本的命名空间。
+            junit是老版本的
+            JUnit：这是一个较旧的版本，通常指的是 JUnit 4 或更早的版本。在 JUnit 4 中，测试方法使用 @Test 注解标记
+                    ，并且可能还使用了其他注解如 @Before, @After, @Ignore 等。这些注解定义在 org.junit 包下。
+            JUnit Jupiter：这是 JUnit 5 的核心组件之一，代表了 JUnit 5 的测试引擎和 API。
+                在 JUnit 5 中，为了提供更好的与 Java 8 及更高版本的兼容性以及更多的功能，引入了新的注解和特性。
+                JUnit Jupiter 的注解和类位于 org.junit.jupiter.api 包下，例如 @Test, @BeforeEach, @AfterEach, @ParameterizedTest 等。
+                -->
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.13.1</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>RELEASE</version>
+            <version>${lombok.vesion}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>RELEASE</version>
+            <version>${junit-jupiter.version}</version>
             <scope>compile</scope>
         </dependency>
-
-        <!-- https://mvnrepository.com/artifact/net.sf.json-lib/json-lib -->
-        <!--Json字符串解析包-->
         <dependency>
+            <!-- https://mvnrepository.com/artifact/net.sf.json-lib/json-lib -->
+            <!--Json字符串解析包-->
             <groupId>net.sf.json-lib</groupId>
             <artifactId>json-lib</artifactId>
-            <version>2.4</version>
+            <version>${json-lib.verions}</version>
             <classifier>jdk15</classifier><!--需要添加的一句话-->
         </dependency>
-
-        <!--json操作包 -->
-        <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
         <dependency>
+            <!--json操作包 -->
+            <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.47</version>
+            <version>${fastjson.verion}</version>
         </dependency>
-
-
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>${org.jsoup.version}</version>
+        </dependency>
+        <!--Hutool 是一个非常强大且实用的工具库，值得在 Java 项目中广泛使用。-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>${hutool.version}</version> <!-- 根据最新版本进行更新 -->
+        </dependency>
         <!--memcached ：是一个自由开源的，高性能，分布式内存对象缓存系统。-->
         <!-- https://mvnrepository.com/artifact/com.whalin/Memcached-Java-Client -->
         <dependency>
@@ -79,21 +111,21 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.3.2</version>
+            <version>${commons-lang3.version}</version>
             <optional>true</optional>
         </dependency>
         <!-- Guava工程包含了若干被Google的 Java项目广泛依赖 的核心库  -->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>30.0-android</version>
+            <version>${com.google.guava.version}</version>
             <optional>true</optional>
         </dependency>
-<!--Apache POI 是一种流行的API,可以使用Java读写MS Excel文件，可以使用Java读写MS Word和MS PowerPoint文件。-->
+        <!--Apache POI 是一种流行的API,可以使用Java读写MS Excel文件，可以使用Java读写MS Word和MS PowerPoint文件。-->
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
-            <version>5.1.0</version>
+            <version>${org.apache.poi.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.apache.logging.log4j</groupId>
@@ -101,19 +133,18 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!-- 测试动态刷新值时导入的包，src/main/java/org/example04/dynamicRefreshValue-->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-            <version>5.3.18</version>
-        </dependency>
-        <!-- 测试动态刷新值时导入的包，src/main/java/org/example04/dynamicRefreshValue-->
-        <dependency>
+         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
-            <version>1.5.13</version>
+            <version>${io.swagger.version}</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${com.fasterxml.jackson.core.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -154,10 +185,12 @@
                     <artifactId>maven-site-plugin</artifactId>
                     <version>3.7.1</version>
                 </plugin>
-                <plugin>
-                    <artifactId>maven-project-info-reports-plugin</artifactId>
-                    <version>3.0.0</version>
-                </plugin>
+<!--            ：mvn site项目信息生成
+                不需要   <plugin>-->
+<!--                    <groupId>org.apache.maven.plugins</groupId>-->
+<!--                    <artifactId>maven-project-info-reports-plugin</artifactId>-->
+<!--                    <version>3.0.0</version>-->
+<!--                </plugin>-->
             </plugins>
         </pluginManagement>
         <plugins>
@@ -165,8 +198,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>8</source>
-                    <target>8</target>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
         </plugins>

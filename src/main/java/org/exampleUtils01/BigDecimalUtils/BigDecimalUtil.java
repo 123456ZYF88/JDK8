@@ -1,6 +1,6 @@
 package org.exampleUtils01.BigDecimalUtils;
 
-import com.sun.istack.internal.NotNull;
+
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -145,7 +145,7 @@ public class BigDecimalUtil {
      * @param scale
      * @return
      */
-    public static BigDecimal divide(BigDecimal v1, BigDecimal v2, @NotNull Integer scale){
+    public static BigDecimal divide(BigDecimal v1, BigDecimal v2, Integer scale){
         if (v1 == null || v1.compareTo(BigDecimal.ZERO) ==0 || v2 == null || v2.compareTo(BigDecimal.ZERO) == 0){
             return BigDecimal.ZERO;
         }

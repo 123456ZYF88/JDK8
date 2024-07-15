@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
+import java.util.Arrays;
 
 /**
  * 本地时间类
@@ -18,21 +21,35 @@ public class LocalDemo01 {
     // LocalDate:获取日期时间的信息。格式为 2019-10-16,yyyy-MM-dd(经常使用)
     @Test
     public void test01() {
+
+        LocalDateTime dateTime = LocalDateTime.now();
+        //获取年月日字符串
+        System.out.println(dateTime.format(DateTimeFormatter.ofPattern("yyyyMMdd")));
+
         //指定日期
         LocalDate localDate = LocalDate.of(2019, 10, 16);
+        //2019-10-16
         System.out.println(localDate);
+
 
         //当前日期
         LocalDate localDate1 = LocalDate.now();
+        //2024-05-25
         System.out.println(localDate1);
 
         //获取时间信息
+        //2024
         System.out.println(localDate1.getYear());
+        //5
         System.out.println(localDate1.getMonthValue());
+        //25
         System.out.println(localDate1.getDayOfMonth());
+        //SATURDAY
         System.out.println(localDate1.getDayOfWeek());
+        //146
         System.out.println(localDate1.getDayOfYear());
         //检查年份是否为闰年。
+        //true
         System.out.println(localDate1.isLeapYear());
 
     }
@@ -43,7 +60,7 @@ public class LocalDemo01 {
         LocalTime localTime = LocalTime.of(10, 16, 9);
         System.out.println(localTime);
         // 得到指定的时间
-        LocalTime time = LocalTime.of(12,15, 28, 129_900_000);
+        LocalTime time = LocalTime.of(12, 15, 28, 129_900_000);
         System.out.println("time = " + time);
 
         LocalTime localTime1 = LocalTime.now();
@@ -87,12 +104,27 @@ public class LocalDemo01 {
         LocalDateTime now = LocalDateTime.now();
         System.out.println(now);
 
-        LocalDateTime localDateTime = now.withYear(2042);
-        System.out.println("修改年份"+localDateTime);//修改年份2042-05-13T17:13:45.887
-        localDateTime = now.withMonth(12);
-        System.out.println("修改月份"+localDateTime);//修改月份2024-12-13T17:13:45.887
+
+        String format = "202406";
+        LocalDateTime localDateTime = now.withYear(Integer.parseInt(format.substring(0, 4)));
+        System.out.println("修改年份" + localDateTime);//修改年份2042-05-13T17:13:45.887
+        localDateTime = localDateTime.withMonth(Integer.parseInt(format.substring(4, 6)));
+        //获取这个月的最后一天
+        //localDateTime = localDateTime.withDayOfMonth(localDateTime.getMonth().length(localDateTime.isLeapYear()));
+        System.out.println("修改月份" + localDateTime);//修改月份2024-12-13T17:13:45.887
 
 
+// 假设你已经有了一个LocalDateTime对象
+        LocalDateTime localDateTime2 = LocalDateTime.now(); // 获取当前时间
+
+// 将日期设置为当月的最后一天
+        LocalDateTime lastDayOfMonth = localDateTime2.with(TemporalAdjusters.lastDayOfMonth());
+
+// 输出结果
+        System.out.println("Last day of the month: " + lastDayOfMonth);
+        String k1 = "10";
+        String[] split = k1.split(",");
+        System.out.println(Arrays.toString(split));
 
         //再当前对象的基础上加上或减去指定的时间
         LocalDateTime localDateTime3 = now.plusDays(5);
@@ -103,7 +135,14 @@ public class LocalDemo01 {
         System.out.println("20年前: " + now.minusYears(20));
         System.out.println("5月前: " + now.minusMonths(5));
         System.out.println("100天前: " + now.minusDays(100));
+        //减一分钟
+        System.out.println("减一分钟: " + now.minusMinutes(1));
+        //获得今年第一天
+        LocalDateTime localDateTime4 = now.withDayOfYear(1);
+        System.out.println(localDateTime4);
     }
+
+
 
 
 }
