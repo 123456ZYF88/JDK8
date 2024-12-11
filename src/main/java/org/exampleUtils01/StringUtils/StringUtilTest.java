@@ -21,4 +21,9 @@ public class StringUtilTest {
         System.out.println(stringValue);
 
     }
+    @Test
+    public void testNewString() {
+        String a = "abc";
+        String b = new String("abc");
+    }
 }

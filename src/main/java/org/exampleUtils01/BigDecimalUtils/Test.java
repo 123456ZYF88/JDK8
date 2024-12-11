@@ -1,11 +1,14 @@
 package org.exampleUtils01.BigDecimalUtils;
 
+import org.apache.commons.lang3.Validate;
+import org.springframework.util.Base64Utils;
+
+import javax.crypto.spec.SecretKeySpec;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.security.Key;
+import java.util.*;
 
 /**
  * @Author ZhangYiFan
@@ -16,17 +19,42 @@ import java.util.List;
 public class Test {
     public static void main(String[] args) {
 
-        System.out.println(new BigDecimal("123.4", new MathContext(4,
-                RoundingMode.HALF_UP)));
-        System.out.println(new BigDecimal("123.4", new MathContext(2,
-                RoundingMode.HALF_UP)));
-        System.out.println(new BigDecimal("123.4", new MathContext(2,
-                RoundingMode.CEILING)));
-        System.out.println(new BigDecimal("123.4", new MathContext(1,
-                RoundingMode.CEILING)));
+//        System.out.println(new BigDecimal("123.4", new MathContext(4,
+//                RoundingMode.HALF_UP)));
+//        System.out.println(new BigDecimal("123.4", new MathContext(2,
+//                RoundingMode.HALF_UP)));
+//        System.out.println(new BigDecimal("123.4", new MathContext(2,
+//                RoundingMode.CEILING)));
+//        System.out.println(new BigDecimal("123.4", new MathContext(1,
+//                RoundingMode.CEILING)));
+
+
+        String s = create("123", "123", 123, 48 * 60 * 60 * 1000 * 24 * 30);
+        System.out.println(s);
+
+    }
+    public static <T> String create(String id, String subject, T data, long ttl) {
+
+
+        Date now = new Date();
+        Date expirationDate =  addMilliseconds(now, (int) ttl);
+        return  expirationDate.toString();
+    }
+    public static Date addMilliseconds(  Date date, final int amount) {
+        return add(date, Calendar.MILLISECOND, amount);
+
+    }
+    private static Date add(final Date date, final int calendarField, final int amount) {
+        validateDateNotNull(date);
+        final Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(calendarField, amount);
+        return c.getTime();
+    }
+    private static void validateDateNotNull(final Date date) {
+        Validate.notNull(date, "The date must not be null");
     }
 
-    @org.junit.jupiter.api.Test
     public void Test1(){
         List<Integer> lista = new ArrayList<>();
         lista.add(1);
