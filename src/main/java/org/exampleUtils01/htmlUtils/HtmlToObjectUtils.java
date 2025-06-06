@@ -2,11 +2,11 @@ package org.exampleUtils01.htmlUtils;
 
 
 
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 
@@ -43,7 +43,7 @@ public class HtmlToObjectUtils {
         CloseableHttpResponse response = httpClient.execute(httpGet);
 
         //4.判断响应状态码并获取响应数据
-        if (response.getStatusLine().getStatusCode() == 200) { //200表示响应成功
+        if (response.getCode() == 200) { //200表示响应成功
             String html = EntityUtils.toString(response.getEntity(), "UTF-8");
             System.out.println(html);
         }
