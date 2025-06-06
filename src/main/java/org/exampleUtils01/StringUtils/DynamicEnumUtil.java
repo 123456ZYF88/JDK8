@@ -1,13 +1,21 @@
 package org.exampleUtils01.StringUtils;
 
+import cn.hutool.crypto.Mode;
+import cn.hutool.crypto.Padding;
+import cn.hutool.crypto.symmetric.AES;
 import sun.reflect.ConstructorAccessor;
 import sun.reflect.FieldAccessor;
 import sun.reflect.ReflectionFactory;
 
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.nio.charset.Charset;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -123,9 +131,34 @@ public class DynamicEnumUtil {
     }
 
 
-    public static void main(String[] args) {
-
+    public static void main(String[] args) throws UnsupportedEncodingException {
+        AES aes = new AES(Mode.CFB, Padding.NoPadding,
+                new SecretKeySpec("pigxpigxpigxpigx".getBytes(), "AES"),
+                new IvParameterSpec("pigxpigxpigxpigx".getBytes()));
+        String password = aes.decryptStr("JFat0Zdc", Charset.forName("UTF-8"));
+        System.out.println(password);
     }
 
+    /**
+     * 获取指定字符串的md5值
+     * @param dataStr 明文
+     * @return String
+     */
+    public static String encrypt(String dataStr) {
+        try {
+            MessageDigest m = MessageDigest.getInstance("MD5");
+            m.update(dataStr.getBytes("UTF8"));
+            byte[] s = m.digest();
+            StringBuilder result = new StringBuilder();
+            for (int i = 0; i < s.length; i++) {
+                result.append(Integer.toHexString((0x000000FF & s[i]) | 0xFFFFFF00).substring(6));
+            }
+            return result.toString();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
 
+        }
+        return "";
+    }
 }

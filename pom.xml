@@ -22,14 +22,16 @@
         <junit-jupiter.version>5.11.0-M2</junit-jupiter.version>
         <lombok.vesion>1.18.34</lombok.vesion>
         <json-lib.verions>2.4</json-lib.verions>
+        <fastjson2.version>2.0.50</fastjson2.version>
         <fastjson.verion> 2.0.0</fastjson.verion>
         <commons-lang3.version>3.3.2</commons-lang3.version>
-        <org.jsoup.version>1.14.3</org.jsoup.version>
+        <org.jsoup.version>1.19.1</org.jsoup.version>
         <com.google.guava.version>32.0.0-android</com.google.guava.version>
         <org.apache.poi.version>5.1.0</org.apache.poi.version>
         <io.swagger.version>1.5.13</io.swagger.version>
         <com.fasterxml.jackson.core.version>2.15.4</com.fasterxml.jackson.core.version>
-
+        <org.apache.httpcomponents.client5.version>5.4.2</org.apache.httpcomponents.client5.version>
+        <org.apache.httpcomponents.client.version>4.5.14</org.apache.httpcomponents.client.version>
     </properties>
 
     <dependencies>
@@ -145,6 +147,36 @@
             <artifactId>jackson-annotations</artifactId>
             <version>${com.fasterxml.jackson.core.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${com.fasterxml.jackson.core.version}</version>
+        </dependency>
+
+        <!--Relocated → org.apache.httpcomponents.client5 » httpclient5 -->
+        <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents.client5/httpclient5 -->
+        <dependency>
+            <groupId>org.apache.httpcomponents.client5</groupId>
+            <artifactId>httpclient5</artifactId>
+            <version>${org.apache.httpcomponents.client5.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${org.apache.httpcomponents.client.version}</version>
+        </dependency>
+
+
+            <!--  htmlUtils-->
+        <dependency>
+            <groupId>org.xhtmlrenderer</groupId>
+            <artifactId>flying-saucer-core</artifactId>
+            <version>9.1.22</version> <!-- 最新稳定版 -->
+        </dependency>
+
+
     </dependencies>
 
     <build>

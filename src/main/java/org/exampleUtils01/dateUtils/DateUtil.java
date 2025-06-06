@@ -1218,11 +1218,24 @@ public final class DateUtil {
     //测试类
     @Test
     public  void test( ) {
-        double daysBetween2 = getDaysBetween2(
-                dateString2Date2("2023110100", YYYY_MM_DD_HH),
-                dateString2Date2("2023110900", YYYY_MM_DD_HH));
-        BigDecimal v = hourToDay(daysBetween2);
-        System.out.println(v);
+
+        LocalDate now = LocalDate.now();
+
+        Date date = dateString2Date2("2017-01-01" , YYYY_MM_DD);
+        System.out.println(date.getDay());
+        System.out.println(date.getMonth());
+        System.out.println(date.getYear());
+        //几号
+        System.out.println(date.getDate());
+
+
+
+
+//        double daysBetween2 = getDaysBetween2(
+//                dateString2Date2("2023110100", YYYY_MM_DD_HH),
+//                dateString2Date2("2023110900", YYYY_MM_DD_HH));
+//        BigDecimal v = hourToDay(daysBetween2);
+//        System.out.println(v);
     }
     //小时转天
     public static BigDecimal hourToDay(double hour) {

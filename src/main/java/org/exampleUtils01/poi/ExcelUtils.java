@@ -1,14 +1,19 @@
 package org.exampleUtils01.poi;
 
 import com.google.common.collect.Lists;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.exampleUtils01.dateUtils.DateUtil;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.ss.usermodel.*;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,8 +26,62 @@ import java.util.List;
  * @version 1.0
  * @since Mar 9, 2014
  */
-public class ExcelUtils
-{
+public class ExcelUtils {
+
+
+    private static final String DATE_FORMAT = "yyyy-MM-dd";
+
+    /**
+     * 导出数据到 Excel 文件
+     * @param dataList 数据列表
+     * @param headers 表头
+     * @param filePath 导出文件的路径
+     * @param <T> 数据类型
+     * @throws IOException 当文件操作出现异常时抛出
+     */
+    public static <T> void exportToExcel(List<T> dataList, String[] headers, String filePath) throws IOException {
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Sheet1");
+
+        // 创建表头
+        Row headerRow = sheet.createRow(0);
+        for (int i = 0; i < headers.length; i++) {
+            Cell cell = headerRow.createCell(i);
+            cell.setCellValue(headers[i]);
+        }
+
+        // 填充数据
+        for (int i = 0; i < dataList.size(); i++) {
+            Row row = sheet.createRow(i + 1);
+            T data = dataList.get(i);
+            Class<?> clazz = data.getClass();
+            Field[] fields = clazz.getDeclaredFields();
+            for (int j = 0; j < fields.length; j++) {
+                fields[j].setAccessible(true);
+                Cell cell = row.createCell(j);
+                try {
+                    Object value = fields[j].get(data);
+                    if (value != null) {
+                        if (value instanceof Date) {
+                            SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+                            cell.setCellValue(sdf.format(value));
+                        } else {
+                            cell.setCellValue(value.toString());
+                        }
+                    }
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        // 写入文件
+        try (FileOutputStream fileOut = new FileOutputStream(filePath)) {
+            workbook.write(fileOut);
+        } finally {
+            workbook.close();
+        }
+    }
 
     /**
      * 只读取excel中第一个sheet中的数据
